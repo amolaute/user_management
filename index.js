@@ -1,27 +1,37 @@
+//variables used
+var itemsPerPage = null;
+let currentPage = 1;
+var pageData;
+const tableBody = document.querySelector("#dataTable tbody");
+var deleteIndex = null;
+var filteredArr;
+var admin = [{
+  firstname: "Admin",
+  middlename: "Admin",
+  lastname: "Admin",
+  email: "admin@gmail.com",
+  contactType: "work",
+  gender: "male",
+  contact: "9999999999",
+  permanentAddress: "Admin Home",
+  currentAddress: "Admin Home",
+  dob: "21-07-1999"
+}];
+
 //get data from localstorage
 function getStoredData() {
-  return JSON.parse(localStorage.getItem("persons")) || [];
+  return JSON.parse(localStorage.getItem("persons")) || admin;
 }
-
 //store data on localstorage
 function storeData(data) {
   localStorage.setItem("persons", JSON.stringify(data));
 }
-
-const tableBody = document.querySelector("#dataTable tbody");
-
-var itemsPerPage = null;
-let currentPage = 1;
 
 function getPerPageItem() {
   let num = document.getElementById("perPageItem").value;
   itemsPerPage = parseInt(num);
   displayDataInTable();
 }
-getPerPageItem();
-// console.log(document.getElementById("perPageItem").value);
-
-var pageData;
 
 function displayDataInTable(page = 1) {
   let arrPerson;
@@ -214,9 +224,6 @@ function addPerson() {
   }
 }
 
-displayDataInTable();
-
-var deleteIndex = null;
 function deleteItem(index) {
   let arrPerson;
   if (document.getElementById("search").value) {
@@ -336,7 +343,7 @@ function sameAdd() {
     cadd.removeAttribute("disabled", "");
   }
 }
-var filteredArr;
+
 function filterItem(value) {
   const arrPerson = getStoredData();
   filteredArr = arrPerson.filter(
@@ -348,7 +355,7 @@ function filterItem(value) {
       e1.gender.toLowerCase().includes(value.toLowerCase()) ||
       e1.email.toLowerCase().includes(value.toLowerCase())
   );
-//   console.log(filteredArr);
+  //   console.log(filteredArr);
   //   displayFilteredData(filteredArr);
   displayDataInTable();
 }
@@ -373,3 +380,7 @@ function viewItem(index) {
   document.getElementById("v_p_add").innerHTML = "-  " + item.permanentAddress;
   document.getElementById("v_dob").innerHTML = "- " + item.dob;
 }
+
+// methods called on page load
+getPerPageItem();
+displayDataInTable();
